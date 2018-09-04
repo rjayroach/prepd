@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# echo $(pwd)
+
+new () {
+# git clone git@github.com:rjayroach/prepd-cli.git roles/prepd-cli
+
+cat <<'EOF' > ansible.cfg
+[defaults]
+inventory = hosts
+# gathering = explicit
+retry_files_enabled = no
+EOF
+
+cat <<'EOF' > hosts
+prepd ansible_connection=local
+EOF
+
+cat <<'EOF' > prepd.yml
+#!/usr/bin/env ansible-playbook
+---
+- hosts: prepd
+  roles: [prepd-cli/runner]
+EOF
+
+chmod +x prepd.yml
+
+./prepd.yml "-e user_action=new -e project_dir=$1"
+
+rm ansible.cfg hosts prepd.yml
+
+# mv roles $1
+
+}
+
+
+if [ "$1" == "new" ]; then
+  if [ -f ansible.cfg ] || [ -f prepd.yml ]; then
+    echo "Cannot create inside an existing project"
+    exit 1
+  else
+    new "$2"
+  fi
+elif [ ! -f ansible.cfg ] || [ ! -f prepd.yml ]; then
+  echo "Not a prped project"
+  exit 1
+else
+  # str=
+  # for i in "$@"; do 
+  #   str="$str $i"
+  # done
+  # echo ${str# }
+  ./prepd.yml
+fi
