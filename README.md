@@ -131,12 +131,26 @@ Tested with version 2.2.0
 If planning to install on a clean machine:
 1. Wipe Mac: http://support.apple.com/kb/PH13871  OR http://support.apple.com/en-us/HT201376
 2. Create New User with Admin rights
+3. Enable ssh
+
+
+```bash
+sudo systemsetup -f -setremotelogin on
+```
+
 
 Install Homebrew:
 
 ```bash
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
+
+Install ansible
+
+```bash
+brew install ansible
+```
+
 
 Install python with zlib and ssl support
 
@@ -157,6 +171,16 @@ sudo pip install -U ansible boto
 ```bash
 apt-get install ansible
 ```
+
+#### Copy ssh key
+
+```bash
+scp ~/.ssh/id_rsa.pub user@host:~/.ssh/authorized_keys
+ssh -A user@host
+# wget https://raw.githubusercontent.com/rjayroach/prepd/master/install.sh
+bash <(curl -s https://raw.githubusercontent.com/rjayroach/prepd/master/install.sh)
+```
+
 
 ### VirtualBox
 

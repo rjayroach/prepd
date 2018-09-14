@@ -3,11 +3,15 @@
 # echo $(pwd)
 
 new () {
-# git clone git@github.com:rjayroach/prepd-cli.git roles/prepd-cli
+# ansible-galaxy list |grep rjayroach.prepd_cli
+# if exit code is 1 then
+# ansible-galaxy install rjayroach.prepd_cli
+
 
 cat <<'EOF' > ansible.cfg
 [defaults]
 inventory = hosts
+stdout_callback=actionable
 # gathering = explicit
 retry_files_enabled = no
 EOF
@@ -45,10 +49,16 @@ elif [ ! -f ansible.cfg ] || [ ! -f prepd.yml ]; then
   echo "Not a prped project"
   exit 1
 else
-  # str=
-  # for i in "$@"; do 
-  #   str="$str $i"
-  # done
-  # echo ${str# }
-  ./prepd.yml
+  str="./prepd.yml"
+  cnt=0
+  for i in "$@"; do
+    if [ "$cnt" == 0 ]; then
+      str="$str -e user_action=$i"
+    else
+      str="$str -e arg_$cnt=$i"
+    fi
+    cnt=$((cnt + 1))
+  done
+  echo ${str# }
+  ${str# }
 fi
