@@ -176,6 +176,7 @@ apt-get install ansible
 
 ```bash
 scp ~/.ssh/id_rsa.pub user@host:~/.ssh/authorized_keys
+ssh user@host 'mkdir ~/.ssh && curl https://github.com/user.keys -o ~/.ssh/authorized_keys'
 ssh -A user@host
 # wget https://raw.githubusercontent.com/rjayroach/prepd/master/install.sh
 bash <(curl -s https://raw.githubusercontent.com/rjayroach/prepd/master/install.sh)

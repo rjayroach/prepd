@@ -25,11 +25,8 @@ elif [[ "$platform" == 'macos' ]]; then
 fi
 
 # Clone ansible role prepd-cli
-mkdir ~/.ansible/roles
-cd ~/.ansible/roles
 if [ ! -d "prepd-cli" ]; then
-  git clone git@github.com:rjayroach/prepd-cli.git
+  git clone git@github.com:rjayroach/prepd-cli.git ~/.ansible/roles/prepd-cli
 fi
-cd /usr/local/bin
-curl https://raw.githubusercontent.com/rjayroach/prepd/master/prepd -o prepd
-chmod +x prepd
+curl https://raw.githubusercontent.com/rjayroach/prepd/master/prepd -o /usr/local/bin/prepd
+chmod +x /usr/local/bin/prepd
